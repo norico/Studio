@@ -1,7 +1,3 @@
 /*
 !wp_content/plugins/intranet/**/*
 !wp_content/themes/intranet/**/*
-
-wp_content/themes/intranet/assets/fonts
-/wp-content/mu-plugins/sqlite-database-integration/LICENSE
-/wp-includes/sodium_compat/LICENSE
