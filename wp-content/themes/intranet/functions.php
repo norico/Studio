@@ -26,4 +26,8 @@ function intranet_after_setup_theme(): void {
 	add_theme_support("title-tag");
 	add_theme_support("post-thumbnails");
 	add_theme_support('html5', array( 'search-form', 'style', 'script') );
+	add_theme_support('custom-logo', array(
+		'flex-height' => true,
+		'flex-width'  => true,
+	));
 }
