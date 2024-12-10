@@ -1,3 +1,42 @@
-/*
-!/wp_content/plugins/intranet/**/*
-!/wp_content/themes/intranet/**/*
+# Wordpress - ignore core, configuration, examples, uploads and logs.
+# https://github.com/github/gitignore/blob/main/WordPress.gitignore
+
+# Core
+#
+# Note: if you want to stage/commit WP core files
+# you can delete this whole section/until Configuration.
+
+*.log
+/node_modules/
+/.idea/
+/.htaccess
+/wp-admin/
+/wp-includes/
+/index.php
+/license.txt
+/readme.html
+/wp-*.php
+/xmlrpc.php
+
+/wp-content/uploads/
+/wp-content/database/
+/wp-content/languages/
+/wp-content/mu-plugins/
+/wp-content/upgrade/
+/wp-content/db.php
+/wp-content/index.php
+
+# Configuration
+/wp-config.php
+
+# Themes
+/wp-content/themes/*
+!wp-content/themes/intranet/
+!wp-content/themes/intranet/*
+!wp-content/themes/intranet/**/*
+
+# Plugins
+/wp-content/plugins/*
+!wp-content/plugins/intranet/
+!wp-content/plugins/intranet/*
+!wp-content/plugins/intranet/**/*
