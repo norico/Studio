@@ -1,0 +1,16 @@
+{
+  "name": "studio",
+  "version": "1.0.0",
+  "description": "none",
+  "main": "index.js",
+  "scripts": {
+    "watch:intranet": "npx tailwindcss -i ./wp-content/themes/intranet/style.css -o ./wp-content/themes/intranet/assets/css/style.css --watch --poll"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15"
+  }
+}
