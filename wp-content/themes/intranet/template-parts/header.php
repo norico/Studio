@@ -3,7 +3,7 @@
         <div class="flex space-x-4">
             <?php
             if ( has_custom_logo() ):
-                printf('<div id="headerimg">%s</div>', wp_get_attachment_image( get_theme_mod( 'custom_logo' ) ) );
+                printf('<div id="headerimg"><a href="%s" rel="home">%s</a></div>', esc_url(get_bloginfo('url')), wp_get_attachment_image( get_theme_mod( 'custom_logo' ) ) );
             endif;
             ?>
             <div class="flex flex-col justify-center">

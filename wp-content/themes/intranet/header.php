@@ -11,5 +11,5 @@
 <?php wp_body_open(); ?>
 
 <?php get_template_part( "template-parts/header" ); ?>
-<div id="page" class="grow bg-slate-100">
+<main class="grow bg-slate-100">
 	<a href="#content" class="sr-only"><?php esc_html_e( 'Skip to content', 'intranet' ); ?></a>
