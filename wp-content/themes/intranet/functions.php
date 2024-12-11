@@ -10,7 +10,8 @@ use ThemeIntranet\Intranet;
 $theme = new Intranet();
 
 add_action('wp_enqueue_scripts', [$theme, 'enqueue_scripts']);
-add_action('init', [$theme, 'remove_unnecessary_wp_head_links']);
+add_action('init', [$theme, 'remove_unnecessary_wp_actions']);
+add_action('init', [$theme, 'remove_unnecessary_wp_filters']);
 add_action('after_setup_theme', [$theme, 'after_setup_theme']);
 add_action('after_switch_theme', [$theme, 'after_switch_theme']);
 add_action('wp_head', [$theme, 'insert_custom_meta']);

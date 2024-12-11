@@ -13,15 +13,18 @@ class Intranet {
 		$this->theme_version = wp_get_theme()->get('Version');
 	}
 
-	public function remove_unnecessary_wp_head_links() {
+	public function remove_unnecessary_wp_actions() {
 		remove_action('wp_head', 'wp_generator');
 		remove_action('wp_head', 'rsd_link');
 		remove_action('wp_head', 'wlwmanifest_link');
 		remove_action('wp_head', 'wp_resource_hints', 2);
 		remove_action('wp_head', 'rsd_link');
 		remove_action('wp_head', 'xfn_link', 2);
+	}
 
+	public function remove_unnecessary_wp_filters(): void {
 		add_filter('xmlrpc_enabled', '__return_false');
+		add_filter('get_avatar', '__return_false');
 	}
 
 	public function enqueue_scripts() {
@@ -40,9 +43,7 @@ class Intranet {
 
 	public function after_switch_theme(): void {
 		global $wp_rewrite;
-
 		$this->create_and_set_pages();
-
 		update_option('posts_per_page', 12);
 		update_option('timezone_string', 'Europe/Paris');
 		update_option('date_format', 'j F Y');
@@ -53,7 +54,6 @@ class Intranet {
 		update_option('medium_size_h', 720);
 		update_option('large_size_w', 1920);
 		update_option('large_size_h', 1080);
-
 		$wp_rewrite->set_permalink_structure('%postname%');
 		$wp_rewrite->flush_rules();
 		if (!term_exists('Actualités', 'category')) {
@@ -62,8 +62,8 @@ class Intranet {
 	}
 
 	private function create_and_set_pages(): void {
-		$home_page_id = $this->get_or_create_page('Page d\'accueil', 'homepage', 'Bienvenue sur notre site');
-		$blog_page_id = $this->get_or_create_page('Page des articles', 'actualites', 'Les actualités');
+		$home_page_id = $this->get_or_create_page('Page d\'accueil', 'homepage', '<!-- wp:paragraph --><p>Bienvenue sur notre site</p><!-- /wp:paragraph -->');
+		$blog_page_id = $this->get_or_create_page('Page des articles', 'actualites', '<!-- wp:paragraph --><p>Les actualités</p><!-- /wp:paragraph -->');
 		update_option('show_on_front', 'page');
 		update_option('page_on_front', $home_page_id);
 		update_option('page_for_posts', $blog_page_id);

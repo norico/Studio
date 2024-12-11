@@ -10,7 +10,7 @@
         /*
 	    if ( have_posts() ) :
 		    while ( have_posts() ) : the_post();
-			    get_template_part( 'template-parts/content-post', get_post_format() );
+			    get_templates_part( 'template-parts/content-post', get_post_format() );
 		    endwhile;
 	    endif;
         */
