@@ -123,7 +123,6 @@ class Intranet {
 			}
 		}
 
-
 		printf('<meta property="og:id" content="">'.PHP_EOL, esc_attr($post->ID));
 		printf('<meta property="og:title" content="%s">'.PHP_EOL, esc_attr($og_title));
 		printf('<meta property="og:description" content="%s">'.PHP_EOL, esc_attr($og_description));
