@@ -4,28 +4,28 @@ namespace ThemeIntranet;
 if (!defined('ABSPATH')) exit;
 
 class Intranet {
+
+	private string $theme_slug;
+	private string $theme_version;
+
 	public function __construct() {
-		add_action('init', [$this, 'remove_unnecessary_wp_head_links']);
-		add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
-		add_action('after_setup_theme', [$this, 'after_setup_theme']);
-		add_action('after_switch_theme', [$this, 'after_switch_theme']);
-		add_action('wp_head', [$this, 'insert_custom_meta']);
+		$this->theme_slug = strtolower(wp_get_theme()->get('Name'));
+		$this->theme_version = wp_get_theme()->get('Version');
 	}
 
 	public function remove_unnecessary_wp_head_links() {
+		remove_action('wp_head', 'wp_generator');
 		remove_action('wp_head', 'rsd_link');
 		remove_action('wp_head', 'wlwmanifest_link');
-		remove_action('wp_head', 'wp_generator');
 		remove_action('wp_head', 'wp_resource_hints', 2);
 		remove_action('wp_head', 'rsd_link');
 		remove_action('wp_head', 'xfn_link', 2);
+
 		add_filter('xmlrpc_enabled', '__return_false');
 	}
 
 	public function enqueue_scripts() {
-		$theme_slug = strtolower(wp_get_theme()->get('Name'));
-		$theme_version = wp_get_theme()->get('Version');
-		wp_enqueue_style($theme_slug, get_stylesheet_directory_uri().'/assets/css/style.css', [], $theme_version, 'screen');
+		wp_enqueue_style($this->theme_slug, get_stylesheet_directory_uri().'/assets/css/style.css', [], $this->theme_version, 'screen');
 	}
 
 	public function after_setup_theme(): void {
@@ -99,7 +99,12 @@ class Intranet {
 
 	public function insert_custom_meta() {
 		global $post;
-		echo '<!-- OpenGraphTags -->' . "\n";
+		echo '<!-- OpenGraphTags -->' . PHP_EOL;
+
+		$site_name = get_bloginfo('name');
+		$blog_id = get_current_blog_id();
+		$site_name = get_current_site()->site_name;
+		$site_id = get_current_site()->site_id;
 
 		if( is_main_site() && is_home() OR is_front_page() ) {
 			$og_title = get_bloginfo('name');
@@ -113,27 +118,26 @@ class Intranet {
 			$og_description = has_excerpt($post->ID) ? get_the_excerpt() : wp_trim_words(get_the_content(), 55, '...');
 			$og_url = get_permalink();
 			$og_type = get_post_type();
-			// Image
-			$og_image = '';
 			if (has_post_thumbnail($post->ID)) {
 				$og_image = get_the_post_thumbnail_url($post->ID, 'large');
 			}
 		}
 
 
-		// Output
-		echo '<meta property="og:id" content="' . esc_attr($post->ID) . '" />' . "\n";
-		echo '<meta property="og:title" content="' . esc_attr($og_title) . '" />' . "\n";
-		echo '<meta property="og:description" content="' . esc_attr($og_description) . '" />' . "\n";
-		echo '<meta property="og:url" content="' . esc_url($og_url) . '" />' . "\n";
-		echo '<meta property="og:type" content="' . esc_attr($og_type) . '" />' . "\n";
+		printf('<meta property="og:id" content="">'.PHP_EOL, esc_attr($post->ID));
+		printf('<meta property="og:title" content="%s">'.PHP_EOL, esc_attr($og_title));
+		printf('<meta property="og:description" content="%s">'.PHP_EOL, esc_attr($og_description));
+		printf('<meta property="og:url" content="%s">'.PHP_EOL, esc_url($og_url));
+		printf('<meta property="og:type" content="%s">'.PHP_EOL, esc_attr($og_type));
 		if ($og_image) {
-			echo '<meta property="og:image" content="' . esc_url($og_image) . '" />' . "\n";
+			printf('<meta property="og:image" content="%s">'.PHP_EOL, esc_url($og_image));
 		}
-		echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '" />' . "\n";
-
-
-		echo '<!-- /OpenGraphTags -->' . "\n";
+		if (is_multisite()) {
+			printf('<meta property="og:site_name" content="%s">'.PHP_EOL, esc_attr($site_name));
+			printf('<meta property="og:site_id" content="%s">'.PHP_EOL, esc_attr($site_id));
+			printf('<meta property="og:blog_id" content="%s">'.PHP_EOL, esc_attr($blog_id));
+		}
+		echo '<!-- /OpenGraphTags -->' .PHP_EOL;
 	}
 
 }
