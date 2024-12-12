@@ -1,5 +1,8 @@
 <article <?php post_class(); ?> >
 	<?php
+
+	post_image(get_the_ID(), true, null );
+
 	if ( is_single() ) :
 	the_title( '<h1 class="entry-title">', '</h1>' );
 	else :

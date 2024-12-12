@@ -18,3 +18,10 @@ add_action('wp_head', [$theme, 'insert_custom_meta']);
 add_action('admin_bar_menu', [$theme,'admin_bar'], 15);
 add_filter('script_loader_src', [$theme, 'remove_version_script'], 15, 1 );
 add_filter('style_loader_src', [$theme, 'remove_version_script'], 15, 1 );
+
+add_action('theme_post_image', [$theme, 'theme_post_image']);
+
+function post_image($post_id, $link=false, $format=null ) {
+	$post_id = is_null($post_id) ? get_the_ID() : $post_id;
+	do_action('theme_post_image', $post_id, $link, $format);
+}

@@ -8,11 +8,13 @@ class Intranet {
 	private string $theme_slug;
 	private string $theme_version;
 	private string $adminbar_documentation_link;
+	private string $default_image;
 
 	public function __construct() {
 		$this->theme_slug = strtolower(wp_get_theme()->get('Name'));
 		$this->theme_version = wp_get_theme()->get('Version');
 		$this->adminbar_documentation_link = '/documentation';
+		$this->default_image = get_template_directory_uri() . '/assets/images/default-thumbnail.png';;
 	}
 
 	/**
@@ -303,5 +305,39 @@ class Intranet {
 		}
 		return $src;
 	}
+
+
+	/**
+	 * @param int $post_id
+	 * @param bool $link
+	 * @param string|null $format
+	 *
+	 * @return void
+	 */
+	public function theme_post_image(int $post_id, bool $link=true, string $format=null) {
+
+		$permalink   = get_permalink($post_id);
+		$image_title = get_post(get_post_thumbnail_id($post_id))->post_title;
+		$image_alt   = get_post_meta(get_post_thumbnail_id($post_id), '_wp_attachment_image_alt', true) ?? 'Texte alternatif';
+		$post_image  =  get_the_post_thumbnail($post_id, null, [ 'alt' => $image_alt, 'title' => $image_title ] );
+		$title       = get_the_title($post_id);
+
+		echo '<div name="' . $format . '">';
+		if ( has_post_thumbnail() ) {
+			if ( $link === true ) {
+				printf( '<a href="%2$s">%3$s</a>', $title, $permalink, $post_image );
+			} else {
+				printf( '%s', $post_image );
+			}
+		} else {
+			if ( $link === true ) {
+				printf( '<img src="%1$s">', $this->default_image );
+			} else {
+				printf( '<a title="%1$s" href="%2$s"><img alt="default" title="default" src="%3$s"></a>', $title,  $permalink, $this->default_image);
+			}
+		}
+		echo '</div>';
+	}
+
 
 }
