@@ -42,6 +42,7 @@ class Intranet {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_style($this->theme_slug, get_stylesheet_directory_uri().'/assets/css/style.css', [], $this->theme_version, 'screen');
+		wp_enqueue_script($this->theme_slug, get_stylesheet_directory_uri().'/assets/js/menu-side.js', ['jquery'], $this->theme_version, true);
 	}
 
 	/**
@@ -307,23 +308,14 @@ class Intranet {
 	}
 
 
-	/**
-	 * @param int $post_id
-	 * @param bool $link
-	 * @param string|null $format
-	 *
-	 * @return void
-	 */
-	public function theme_post_image(int $post_id, bool $link=true, string $format=null) {
-
+	public function post_image(int $post_id, bool $link=true, string $format=null): void {
 		$permalink   = get_permalink($post_id);
 		$image_title = get_post(get_post_thumbnail_id($post_id))->post_title;
 		$image_alt   = get_post_meta(get_post_thumbnail_id($post_id), '_wp_attachment_image_alt', true) ?? 'Texte alternatif';
-		$post_image  =  get_the_post_thumbnail($post_id, null, [ 'alt' => $image_alt, 'title' => $image_title ] );
+		$post_image  = get_the_post_thumbnail($post_id, null, [ 'alt' => $image_alt, 'title' => $image_title ] );
 		$title       = get_the_title($post_id);
-
 		echo '<div name="' . $format . '">';
-		if ( has_post_thumbnail() ) {
+		if ( has_post_thumbnail($post_id) ) {
 			if ( $link === true ) {
 				printf( '<a href="%2$s">%3$s</a>', $title, $permalink, $post_image );
 			} else {
@@ -331,12 +323,87 @@ class Intranet {
 			}
 		} else {
 			if ( $link === true ) {
-				printf( '<img src="%1$s">', $this->default_image );
-			} else {
 				printf( '<a title="%1$s" href="%2$s"><img alt="default" title="default" src="%3$s"></a>', $title,  $permalink, $this->default_image);
+			} else {
+				printf( '<img src="%1$s">', $this->default_image );
 			}
 		}
 		echo '</div>';
+	}
+
+	public function side_modal(): void {
+
+		get_template_part('template-parts/menu-right');
+	}
+
+	public function disable_gutenberg_blocks() {
+		$disable_blocks = [
+			// Désactiver les blocs liés au thème
+			'core/template-part',
+			'core/site-title',
+			'core/site-logo',
+			'core/site-tagline',
+			'core/query',
+			'core/post-template',
+			'core/post-content',
+			'core/post-title',
+			'core/post-featured-image',
+			'core/post-excerpt',
+
+			// Désactiver les blocs de widgets
+			'core/legacy-widget',
+			'core/widget-group',
+			'core/calendar',
+			'core/rss',
+			'core/search',
+			'core/latest-posts',
+			'core/latest-comments',
+			'core/tag-cloud',
+			'core/categories',
+			'core/archives',
+			'core/html',
+			'core/page-list',
+			'core/social-links',
+
+			// Désactiver les blocs de embed
+			'core/embed',
+
+			// Désactiver les blocs de theme
+			'core/navigation',
+			'core/avatar',
+			'core/author',
+			'core/author',
+			'core/post-date',
+			'core/post-author',
+			'core/post-author-name',
+			'core/post-terms',
+			'core/post-navigation-link',
+			'core/read-more',
+			'core/comments-title',
+			'core/comments',
+			'core/post-comments-form',
+			'core/comments-pagination',
+			'core/loginout',
+			'core/term-description',
+			'core/query-title',
+			'core/search',
+			'core/post-author-biography',
+		];
+		if( ! is_array( $disable_blocks ) || empty( $allowed_blocks ) ){
+			$registered_blocks = \WP_Block_Type_Registry::get_instance()->get_all_registered();
+			$allowed_blocks = array_keys( $registered_blocks );
+		}
+		foreach( $allowed_blocks as $index => $block_id ){
+			if( in_array( $block_id, $disable_blocks, true ) ){
+				unset( $allowed_blocks[ $index ] );
+			}
+		}
+		return array_values( $allowed_blocks );
+	}
+
+	public function disable_openverse( $settings ) {
+		$settings['enableOpenverseMediaCategory'] = false;
+		return $settings;
 	}
 
 
