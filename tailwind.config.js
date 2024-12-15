@@ -8,7 +8,11 @@ module.exports = {
 
     ],
     theme: {
-        extend: {},
+        extend: {
+            aspectRatio: {
+                'cinemascope': '32 /9'
+            },
+        },
     },
     plugins: [],
 }
