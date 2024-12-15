@@ -11,6 +11,10 @@
                 <span class="description">
                     <?php bloginfo('description'); ?>
                 </span>
+
+                <span id="search-icon" class="dashicons dashicons-search m-2 hover:scale-150 cursor-pointer"></span>
+                <span id="menu-icon"   class="dashicons dashicons-menu   m-2 hover:scale-150 cursor-pointer"></span>
+
             </div>
         </div>
     </div>

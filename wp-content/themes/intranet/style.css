@@ -19,3 +19,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 #headerimg img {
     @apply max-h-40 w-auto;
 }
+
+div [name="thumbnail"] img {
+    @apply w-full;
+    @apply aspect-video;
+    @apply object-cover;
+}
+
