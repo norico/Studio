@@ -10,6 +10,9 @@ use ThemeIntranet\Intranet;
 $theme = new Intranet();
 
 add_action('wp_enqueue_scripts', [$theme, 'enqueue_scripts']);
+add_action('enqueue_block_editor_assets', [$theme, 'enqueue_block_editor_assets'],20);
+
+
 add_action('init', [$theme, 'remove_unnecessary_wp_actions']);
 add_action('init', [$theme, 'remove_unnecessary_wp_filters']);
 add_action('after_setup_theme', [$theme, 'after_setup_theme']);

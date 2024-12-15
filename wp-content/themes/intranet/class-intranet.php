@@ -41,9 +41,17 @@ class Intranet {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		wp_enqueue_style($this->theme_slug.'-fonts', get_stylesheet_directory_uri().'/assets/css/fonts.css', [], $this->theme_version, 'screen');
 		wp_enqueue_style($this->theme_slug, get_stylesheet_directory_uri().'/assets/css/style.css', [], $this->theme_version, 'screen');
 		wp_enqueue_style($this->theme_slug.'-custom', get_stylesheet_directory_uri().'/assets/css/custom.css', [$this->theme_slug], $this->theme_version, 'screen');
 		wp_enqueue_script($this->theme_slug, get_stylesheet_directory_uri().'/assets/js/menu-side.js', ['jquery'], $this->theme_version, true);
+	}
+
+	public function enqueue_block_editor_assets() {
+		wp_enqueue_style(
+			'theme-editor-styles',
+			get_stylesheet_directory_uri() . '/assets/css/style.css',[], filemtime(get_stylesheet_directory() . '/assets/css/style.css') );
+		// add_editor_style(get_stylesheet_directory_uri().'/assets/css/style.css');
 	}
 
 	/**
@@ -58,6 +66,7 @@ class Intranet {
 			'flex-width'  => true,
 		));
 		add_theme_support('align-wide');
+		add_theme_support('editor-styles');
 	}
 
 	/**
@@ -322,7 +331,7 @@ class Intranet {
 		echo '<div name="' . $format . '">';
 		if ( has_post_thumbnail($post_id) ) {
 			if ( $link === true ) {
-				printf( '<a href="%2$s">%3$s</a>', $title, $permalink, $post_image );
+				printf( '<a href="%2$s"><figure class="wp-block-image">%3$s</figure></a>', $title, $permalink, $post_image );
 			} else {
 				printf( '%s', $post_image );
 			}
@@ -330,7 +339,7 @@ class Intranet {
 			if ( $link === true ) {
 				printf( '<a title="%1$s" href="%2$s"><img alt="default" title="default" src="%3$s"></a>', $title,  $permalink, $this->default_image);
 			} else {
-				printf( '<img src="%1$s">', $this->default_image );
+				printf( '<figure class="wp-block-image"><img src="%1$s"></figure>', $this->default_image );
 			}
 		}
 		echo '</div>';
