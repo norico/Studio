@@ -1,0 +1,99 @@
+/*
+Theme Name:  Intranet child
+Description: Thème enfant de Intranet
+Author:      Votre nom
+Author URI:  Votre site web (optionnel)
+Template:    intranet
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#headerimg img {
+    @apply max-h-40 w-auto;
+}
+
+body {
+    font-family: 'Marianne', sans-serif;
+    @apply leading-7;
+}
+
+article *:not(.wp-block-image):not(.wp-block-image *){
+    @apply container;
+}
+editor-post-title,
+.entry-title {
+    @apply text-3xl pb-2;
+}
+
+p {
+    @apply pb-2;
+}
+
+.wp-element-caption {
+    @apply text-center;
+}
+.wp-block-image img {
+    @apply w-full;
+}
+
+.wp-block-image {
+    @apply container mx-auto;
+    @apply bg-transparent;
+    @apply w-full;
+}
+
+.alignwide {
+    @apply max-w-screen-3xl mx-auto;
+    @apply bg-transparent;
+}
+
+.full,
+.alignfull {
+    @apply max-w-none mx-auto;
+    @apply bg-transparent;
+}
+
+.full img,
+.alignfull img{
+    @apply w-full;
+}
+
+ul.wp-block-list {
+    @apply pl-8 pb-2;
+    @apply list-disc;
+}
+ol.wp-block-list {
+    @apply pl-8 pb-2;
+    @apply list-decimal;
+}
+
+h1.wp-block-heading {
+    @apply text-3xl;
+    @apply pb-2;
+}
+h2.wp-block-heading {
+    @apply text-2xl;
+    @apply pb-2;
+}
+h3.wp-block-heading {
+    @apply text-xl;
+    @apply pb-2;
+}
+h4.wp-block-heading {
+    @apply text-lg;
+    @apply pb-2;
+}
+h5.wp-block-heading {
+    @apply text-base;
+    @apply pb-2;
+}
+h6.wp-block-heading {
+    @apply text-sm;
+    @apply pb-2;
+}
+
+.wp-block-pullquote {
+    @apply bg-gray-400 rounded-lg;
+}
