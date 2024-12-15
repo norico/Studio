@@ -34,6 +34,9 @@
 !wp-content/themes/intranet/
 !wp-content/themes/intranet/*
 !wp-content/themes/intranet/**/*
+!wp-content/themes/intranet-child/*
+!wp-content/themes/intranet-child/**/*
+
 
 # Plugins
 /wp-content/plugins/*
