@@ -4,6 +4,7 @@
   "description": "none",
   "main": "index.js",
   "scripts": {
+    "build": "npx tailwindcss -i ./wp-content/themes/intranet/style.css -o ./wp-content/themes/intranet/assets/css/style.css",
     "watch:intranet": "npx tailwindcss -i ./wp-content/themes/intranet/style.css -o ./wp-content/themes/intranet/assets/css/style.css --watch --poll"
   },
   "author": "",
