@@ -1,6 +1,6 @@
 /*
 Theme Name: Intranet
-Version: 1.0.2
+Version: 1.0.3
 Author: the team
 Requires at least: 6.5
 Tested up to: 6.7.1
@@ -22,7 +22,18 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 div [name="thumbnail"] img {
     @apply w-full;
-    @apply aspect-video;
+    @apply aspect-video xl:aspect-cinemascope;
     @apply object-cover;
+}
+
+.alignwide {
+    @apply bg-orange-200;
+    @apply w-full;
+}
+
+
+.alignfull {
+    @apply bg-yellow-200;
+    @apply w-full;
 }
 

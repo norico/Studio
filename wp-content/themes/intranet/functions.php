@@ -19,17 +19,15 @@ add_action('admin_bar_menu', [$theme,'admin_bar'], 15);
 add_filter('script_loader_src', [$theme, 'remove_version_script'], 15, 1 );
 add_filter('style_loader_src', [$theme, 'remove_version_script'], 15, 1 );
 
-add_action('post_image', [$theme, 'post_image']);
+add_action('post_image', [$theme, 'post_image'], 10, 3);
 add_action('wp_footer', [$theme, 'side_modal']);
 
 add_filter( 'allowed_block_types_all', [$theme,'disable_gutenberg_blocks'], 30, 2 );
 add_filter( 'block_editor_settings_all', [$theme,'disable_openverse'] );
 
 
-
-
-function post_image( int $post_id=null, bool $link=false, string $format=null ): void {
+function the_post_image( int $post_id=null, bool $link=false, string $format=null ): void {
 	$post_id = is_null($post_id) ? get_the_ID() : $post_id;
-	$format  = is_null($format) ? 'default' : $format;
+	$format  = is_null($format) ? 'thumbnail' : $format;
 	do_action('post_image', $post_id, $link, $format);
 }

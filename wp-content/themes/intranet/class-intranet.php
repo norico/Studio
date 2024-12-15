@@ -42,6 +42,7 @@ class Intranet {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_style($this->theme_slug, get_stylesheet_directory_uri().'/assets/css/style.css', [], $this->theme_version, 'screen');
+		wp_enqueue_style($this->theme_slug.'-custom', get_stylesheet_directory_uri().'/assets/css/custom.css', [$this->theme_slug], $this->theme_version, 'screen');
 		wp_enqueue_script($this->theme_slug, get_stylesheet_directory_uri().'/assets/js/menu-side.js', ['jquery'], $this->theme_version, true);
 	}
 
@@ -56,6 +57,7 @@ class Intranet {
 			'flex-height' => true,
 			'flex-width'  => true,
 		));
+		add_theme_support('align-wide');
 	}
 
 	/**
@@ -308,12 +310,15 @@ class Intranet {
 	}
 
 
-	public function post_image(int $post_id, bool $link=true, string $format=null): void {
+	public function post_image(int $post_id, bool $link, string $format): void {
+
+		$format      = is_null($format) ? 'default' : $format;
 		$permalink   = get_permalink($post_id);
 		$image_title = get_post(get_post_thumbnail_id($post_id))->post_title;
 		$image_alt   = get_post_meta(get_post_thumbnail_id($post_id), '_wp_attachment_image_alt', true) ?? 'Texte alternatif';
 		$post_image  = get_the_post_thumbnail($post_id, null, [ 'alt' => $image_alt, 'title' => $image_title ] );
 		$title       = get_the_title($post_id);
+
 		echo '<div name="' . $format . '">';
 		if ( has_post_thumbnail($post_id) ) {
 			if ( $link === true ) {
